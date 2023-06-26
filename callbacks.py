@@ -18,11 +18,20 @@ def start(update: Update, context: CallbackContext):
 def settings(update: Update, context: CallbackContext):
     # get lan
     lan = update.callback_query.data.split('->')[1]
+    
     # set config
     db.set_config(chat_id=update.effective_user.id, lan=lan)
+
     # send translated
+    if lan=='uz':
+        text = '🇺🇸 🔄 🇺🇿'
+        callback_data='en->uz'
+    else:
+        text = '🇺🇿 🔄 🇺🇸'
+        callback_data='uz->en'
+    
     update.callback_query.message.edit_reply_markup(
-        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text='🇺🇸 🔄 🇺🇿', callback_data='en->uz')]])
+        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text=text, callback_data=callback_data)]])
     )
 
 
